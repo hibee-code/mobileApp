@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 const appSetting = {
     databaseURL: "https://praxis-cab-389808-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -20,9 +20,31 @@ addBtn.addEventListener("click", function(){
     push(shoppingListItem, inputValue)
 
     resetInputItem()
-    appendItems(inputValue)
+    
                                 
 })
+
+onValue(shoppingListItem, function(snapshot){
+    let itemList = Object.values(snapshot.val())
+
+     clearShoppingItem() 
+
+    for (let i = 0; i < itemList.length; i++){
+        
+         appendItems(itemList[i]);
+
+        // console.log(currentItem)
+        // let currentItemID = currentItem[0]
+        // let currentItemValues = currentItem[1];
+
+        // appendItems(currentItemValues)
+    }
+    
+})
+
+function clearShoppingItem () {
+    shoppingList.innerHTML = ""
+}
 
 function resetInputItem(){
     addItemInput.value = " ";
@@ -31,3 +53,4 @@ function resetInputItem(){
 function appendItems(itemValue){
     shoppingList.innerHTML += `<li> ${itemValue} </li>`
 }
+

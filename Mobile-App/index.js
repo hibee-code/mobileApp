@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 const appSetting = {
     databaseURL: "https://praxis-cab-389808-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -16,30 +16,26 @@ const shoppingList = document.querySelector("#shopping-list")
 
 addBtn.addEventListener("click", function(){
     let inputValue = addItemInput.value;
-   
     push(shoppingListItem, inputValue)
 
-    resetInputItem()
-    
-                                
+    resetInputItem()                              
 })
 
 onValue(shoppingListItem, function(snapshot){
-    let itemList = Object.values(snapshot.val())
+    let itemList = Object.entries(snapshot.val())
 
      clearShoppingItem() 
 
     for (let i = 0; i < itemList.length; i++){
-        
-         appendItems(itemList[i]);
 
-        // console.log(currentItem)
-        // let currentItemID = currentItem[0]
-        // let currentItemValues = currentItem[1];
+        let currentItem = itemList[i]
 
-        // appendItems(currentItemValues)
-    }
+        let currentItemID = currentItem[0]
+        let currentItemValue = currentItem[1]
     
+            appendItems(currentItem)
+         
+    } 
 })
 
 function clearShoppingItem () {
@@ -50,7 +46,21 @@ function resetInputItem(){
     addItemInput.value = " ";
 }
 
-function appendItems(itemValue){
-    shoppingList.innerHTML += `<li> ${itemValue} </li>`
+function appendItems(item){
+    let itemID = item[0]
+    let itemValue = item[1]
+    
+
+    let newEl = document.createElement("li")
+    newEl.textContent = itemValue
+    shoppingList.append(newEl)
+
+    newEl.addEventListener("dblclick", function(){
+        let exactLocationInDB = ref(database, `shoppingList/${itemID}`)
+
+        remove(exactLocationInDB)
+    })
 }
+
+
 

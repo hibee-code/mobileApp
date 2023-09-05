@@ -4,6 +4,8 @@ html,body{
     box-sizing: border-box;
       font-family: 'Rubik', sans-serif;
     background-color: #EEF0F4;
+    color: #432000;
+    user-select: none;
 }
 .container{
     display: flex;
@@ -21,6 +23,7 @@ html,body{
     border: none;
     text-align: center;
     border-radius: 7px;
+    box-shadow: 5px 10px #888888;
 
 }
 #add-btn{
@@ -32,6 +35,11 @@ html,body{
     margin-top:7px;
     text-align: center;
     border-radius: 8px;
+    box-shadow: 5px 10px #888888;
+}
+#add-btn:hover{
+    background-color: #2f1a01;
+    cursor: pointer;
 }
 img{
     margin: 0 auto;
@@ -55,4 +63,8 @@ ul li{
     /* width: 30%;
     height: 30px;
     text-align: center; */
+}
+ul li:hover{
+    background-color: #9cb006;
+    cursor: pointer;
 }

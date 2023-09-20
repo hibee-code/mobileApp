@@ -14,15 +14,31 @@ const addBtn = document.querySelector("#add-btn")
 const addItemInput = document.querySelector("#MA-inp")
 const shoppingList = document.querySelector("#shopping-list")
 
-addBtn.addEventListener("click", function(){
+document.addEventListener('keyup', (event) => {
+    if (event.keyCode == 13) {
+        addItem();
+    }
+})
+
+function addItem(){
     let inputValue = addItemInput.value;
+
+    if (inputValue === ''){
+        alert('emoty');
+        return;
+    }
+
     push(shoppingListItem, inputValue)
 
     resetInputItem()                              
-})
+}
+
+addBtn.addEventListener("click", addItem)
 
 onValue(shoppingListItem, function(snapshot){
-    let itemList = Object.entries(snapshot.val())
+    if (snapshot.exists()){
+
+        let itemList = Object.entries(snapshot.val())
 
      clearShoppingItem() 
 
@@ -36,6 +52,10 @@ onValue(shoppingListItem, function(snapshot){
             appendItems(currentItem)
          
     } 
+
+    }else {
+         shoppingList.innerHTML = "No Items availalbe in the cart......"
+    }
 })
 
 function clearShoppingItem () {
